@@ -76,30 +76,29 @@ app.config['CORS_HEADERS'] = 'Content-Type'
 voltage_a = 0
 current_a = 0
 freq_a = 0
-
-##################################################################
-
+k=state_val.count(1)
+cur_val = 0.56
 
 
 #################################################################
 
 def send_data():
 		while True:
-				voltage_a = random.randint(187,220)
-				current_a = random.randint(1,10)
-				freq_a = 50
+				voltage_a = random.uniform(190,235)
+				current_a = random.uniform(k*cur_val-0.5,k*cur_val+0.5)
+				freq_a = random.uniform(49.3,50)
 				data = {
 						"voltage_reading" : '%.2f'%voltage_a,
 						"current_reading" : '%.2f'%current_a,
 						"frequency_reading" : '%.2f'%freq_a,
-						"load_0_status": "ON" if state_val[0]==1 else "OFF",
-						"load_1_status": "ON" if state_val[1]==1 else "OFF",
-						"load_2_status": "ON" if state_val[2]==1 else "OFF",
-						"load_3_status": "ON" if state_val[3]==1 else "OFF",
 						"bpi_0": '%.2f'%bpi[0],
 						"bpi_1": '%.2f'%bpi[1],
 						"bpi_2": '%.2f'%bpi[2],
-						"bpi_3": '%.2f'%bpi[3]
+						"bpi_3": '%.2f'%bpi[3],
+                        "sv0": state_val[0],
+                        "sv1": state_val[1],
+                        "sv2": state_val[2],
+                        "sv3": state_val[3]
 				}		
 				print (data)
 				decision(data)
@@ -113,14 +112,18 @@ def change_state(k):
         else:
             state_val[i]=0
     return
-
+'''
 def interface_relay():
     GPIO.output(l0,True) if state_val[0]==1 else GPIO.output(l0,False)
     GPIO.output(l1,True) if state_val[1]==1 else GPIO.output(l1,False)
     GPIO.output(l2,True) if state_val[2]==1 else GPIO.output(l2,False)
     GPIO.output(l3,True) if state_val[3]==1 else GPIO.output(l3,False)
     return
-    
+'''
+'''
+'Save' in the middle of execution in the terminal to actually
+acknwoledge the changes made '''
+
 def decision(mydata):
     v=float(mydata["voltage_reading"])
     f=float(mydata["frequency_reading"])
@@ -140,7 +143,6 @@ def decision(mydata):
         print("Stage I")
     else:
         state_val=[1,1,1,1] #engage all loads
-    inteface_relay()
     return
 
 @app.route('/watch')

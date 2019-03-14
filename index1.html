@@ -19,6 +19,75 @@
     <script type="text/javascript" src="scripts/app.js" charset="utf-8">
     </script>
 	-->
+    <script type="text/javascript" charset="utf-8">
+            function change_col()
+            {
+                 var green_color = '#76ff03';
+                 var red_color = '#f44336';
+
+                 switch(stv3)
+                 {
+                    case 0:
+                        $('#button3').css('background-color',
+                            red_color);
+                        $('#fourth-load-status').text('OFF');
+                        break;
+
+                    case 1:
+                        $('#button3').css('background-color',
+                            green_color);
+                        $('#fourth-load-status').text('ON');
+                        break;
+                 }
+
+                 switch(stv2)
+                 {
+                    case 0:
+                        $('#button2').css('background-color',
+                            red_color);
+                        $('#third-load-status').text('OFF');
+                        break;
+
+                    case 1:
+                        $('#button2').css('background-color',
+                            green_color);
+                        $('#third-load-status').text('ON');
+                        break;
+                 }
+
+                 switch(stv1)
+                 {
+                    case 0:
+                        $('#button1').css('background-color',
+                            red_color);
+                        $('#second-load-status').text('OFF');
+                        break;
+
+                    case 1:
+                        $('#button1').css('background-color',
+                            green_color);
+                        $('#second-load-status').text('ON');
+                        break;
+                 }
+
+                 switch(stv0)
+                 {
+                    case 0:
+                        $('#button0').css('background-color',
+                            red_color);
+                        $('#first-load-status').text('OFF');
+                        break;
+
+                    case 1:
+                        $('#button0').css('background-color',
+                            green_color);
+                        $('#first-load-status').text('ON');
+                        break;
+                 }    
+            }
+            setInterval(change_col,1000);
+    </script>
+
 	<script type="text/javascript" charset="utf-8">
 		window.onload = maxWindow;
 
@@ -43,6 +112,12 @@
     	voltage_val = 0;
     	current_val = 0;
         freq_val = 0;
+
+        stv0 = 0;
+        stv1 = 0;
+        stv2 = 0;
+        stv3 = 0;
+
     	function call() {
         	//request.open('GET', 'http://192.168.43.249:8080/watch', true);
         	request.open('GET', 'http://localhost:8080/watch', true);
@@ -56,14 +131,20 @@
         	    $('#voltage_log').text(data["voltage_reading"]);
         	    $('#current_log').text(data["current_reading"]);
         	    $('#frequency_log').text(data["frequency_reading"]);
+
         		current_val = data["current_reading"] - 0.0;
         		freq_val = data["frequency_reading"] - 0.0;
         		voltage_val = data["voltage_reading"] - 0.0;
 
-                $('#first-load-status').text(data["load_0_status"]);
-                $('#second-load-status').text(data["load_1_status"]);
-                $('#third-load-status').text(data["load_2_status"]);
-                $('#fourth-load-status').text(data["load_3_status"]);
+                stv0 = data["sv0"] + 0;
+                stv1 = data["sv1"] + 0;
+                stv2 = data["sv2"] + 0;
+                stv3 = data["sv3"] + 0;
+
+                console.log(stv0);
+                console.log(stv1);
+                console.log(stv2);
+                console.log(stv3);
 
                 $('#first-load-bpi-value').text(data["bpi_0"]);
                 $('#second-load-bpi-value').text(data["bpi_1"]);
@@ -415,9 +496,7 @@
 			<div id="load-row">
 				<div id="first-load">
 					<div id="first-load-name">
-						<b> Load 1 : <span id="first-load-status">
-							 ON
-						</span>
+						<b> Load 1 
 						 </b>
 					</div>
 					<div id="first-load-bpi">
@@ -426,12 +505,15 @@
 						</span>
 						</b>
 					</div>
+                    <div id="button0">
+                        <span id="first-load-status">
+                             OFF
+                        </span>
+                    </div>
 				</div>
 				<div id="second-load">
 					<div id="second-load-name">
-						<b> Load 2 : <span id="second-load-status">
-							OFF							
-						</span> 
+						<b> Load 2  
 						</b>
 					</div>
 					<div id="second-load-bpi">
@@ -440,13 +522,15 @@
 						</span>
 						</b>
 					</div>
+                    <div id="button1">
+                        <span id="second-load-status">
+                            OFF                         
+                        </span> 
+                    </div>
 				</div>
 				<div id="third-load">
 					<div id="third-load-name">
-						<b> Load 3 : 
-						<span id="third-load-status">
-							 ON
-						</span> 
+						<b> Load 3 
 					    </b>
 					</div>
 					<div id="third-load-bpi">
@@ -455,12 +539,15 @@
 						</span>
 						</b>
 					</div>
+                    <div id="button2">
+                        <span id="third-load-status">
+                             OFF
+                        </span> 
+                    </div>
 				</div>
 				<div id="fourth-load">
 					<div id="fourth-load-name">
-						<b> Load 4 : <span id="fourth-load-status">
-							OFF
-						</span> 
+						<b> Load 4 
 					    </b>
 					</div>
 					<div id="fourth-load-bpi">
@@ -469,6 +556,11 @@
 						</span>
 						</b>
 					</div>
+                    <div id="button3">
+                        <span id="fourth-load-status">
+                            OFF                         
+                        </span> 
+                    </div>
 				</div>
 			</div>
 		</div>

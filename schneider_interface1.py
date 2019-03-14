@@ -60,6 +60,8 @@ S=[1,1,1,1]
 state_val=[1,1,1,1]
 bpi=[4,3,2,1]
 v_base=220
+k=state_val.count(1)
+cur_val = 0.56
 
 '''
 def read_data():
@@ -136,10 +138,11 @@ def send_data():
         #read_holding_registers has an offset of 4000 to begin with
     	       while True:
                         voltage_a=c.read_holding_registers(166,1)#list output for integer take voltage_a[0]
-        		voltage_a=voltage_a[0]
+                        voltage_a=voltage_a[0]
                 #print voltage_a
-                        current_a=c.read_holding_registers(150,1)
-        		current_a=current_a[0]
+                        #current_a=c.read_holding_registers(150,1)
+                        current_a=random.uniform(k*cur_val-0.5,k*cur_val+0.5)
+                        current_a=current_a[0]
                 #print current_a
                         real_power_a=c.read_holding_registers(208,1)
         		#real_power_a=real_power_a[0]
@@ -152,7 +155,6 @@ def send_data():
                 #print apparent_power_a
                         freq=c.read_holding_registers(159,1)
                         #freq=freq[0]/10
-			freq=50
                 #move this part to decision in case of load scheduling
                         #set_priority()
                         #print_priority()
@@ -174,7 +176,11 @@ def send_data():
                                     "bpi_0": '%.2f'%bpi[0],
                                     "bpi_1": '%.2f'%bpi[1],
                                     "bpi_2": '%.2f'%bpi[2],
-                                    "bpi_3": '%.2f'%bpi[3]
+                                    "bpi_3": '%.2f'%bpi[3],
+                                    "sv0": state_val[0],
+                                    "sv1": state_val[1],
+                                    "sv2": state_val[2],
+                                    "sv3": state_val[3]
                         }
                         print (data)
                         decision(data)
