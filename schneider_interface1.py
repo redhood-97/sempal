@@ -61,9 +61,8 @@ S=[1,1,1,1]
 state_val=[1,1,1,1]
 bpi=[4,3,2,1]
 v_base=220
-k=state_val.count(1)
 cur_val = 0.56
-
+f_base=49
 '''
 def read_data():
     for i in [0,1,2,3]:
@@ -142,8 +141,9 @@ def send_data():
                         voltage_a=voltage_a[0]
                 #print voltage_a
                         #current_a=c.read_holding_registers(150,1)
-                        current_a=random.uniform(k*cur_val-0.5,k*cur_val+0.5)
-                        current_a=current_a[0]
+			k=state_val.count(1)
+                        current_a=random.uniform(state_val.count(1)*cur_val,state_val.count(1)*cur_val+0.05) if k!=0 else 0
+                        #current_a=current_a[0]
                 #print current_a
                         real_power_a=c.read_holding_registers(208,1)
         		#real_power_a=real_power_a[0]
@@ -155,7 +155,7 @@ def send_data():
         		#apparent_power_a=apparent_power_a[0]
                 #print apparent_power_a
                         freq=c.read_holding_registers(159,1)
-                        #freq=freq[0]/10
+                        freq=freq[0]/10
                 #move this part to decision in case of load scheduling
                         #set_priority()
                         #print_priority()
@@ -208,18 +208,19 @@ def decision(mydata):
     f=float(mydata["frequency_reading"])
     bpi_sorted=bpi
     bpi_sorted.sort()
-    v=v/220.00;
+    v=v/220.00
+    f=f/f_base
     print("Voltage(pu): "+str(v))
-    if(f<48.8 or v<0.88):
+    if(f<0.88 or v<0.88):
         change_state(bpi_sorted[3])#third least imp load or most imp load
         print("Stage IV")
-    elif(f<49.1 or v<0.91):
+    elif(f<0.91 or v<0.91):
         change_state(bpi_sorted[2])#third least imp load
         print("Stage III")
-    elif(f<49.4 or v<0.94):
+    elif(f<0.94 or v<0.94):
         change_state(bpi_sorted[1])#second least imp load
         print("Stage II")
-    elif(f<49.7 or v<0.97):
+    elif(f<0.97 or v<0.97):
         change_state(bpi_sorted[0])#least imp load
         print("Stage I")
     else:
