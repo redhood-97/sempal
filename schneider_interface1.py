@@ -13,6 +13,7 @@ from flask_restful import Resource, Api
 import numpy as np
 import RPi.GPIO as GPIO
 import math
+import random
 
 print("====================================================================")
 print("                                                                    ")
