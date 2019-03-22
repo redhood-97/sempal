@@ -248,7 +248,7 @@ def watch():
                 return response
 
 if __name__ == "__main__":
-        app.run(host='192.168.43.249', port=8080, debug=True)
+        app.run(host='192.168.43.249', port=8080, debug=True, use_reloader=False)
 
 
 
