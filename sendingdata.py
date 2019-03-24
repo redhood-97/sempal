@@ -131,14 +131,14 @@ def decision(mydata):
     bpi_sorted.sort()
     v=v/220.00;
     print("Voltage(pu): "+str(v))
-    if(f<48.8 or v<0.88):
+    if(v<0.88 or f<0.88):
         change_state(bpi_sorted[3])#third least imp load or most imp load
-    elif(f<49.1 or v<0.91):
+    elif(v<0.91 or f<0.91):
         change_state(bpi_sorted[2])#third least imp load
-    elif(f<49.4 or v<0.94):
+    elif(v<0.94 or f<0.94):
         change_state(bpi_sorted[1])#second least imp load
         print("Stage II")
-    elif(f<49.7 or v<0.97):
+    elif(v<0.97 or f<0.97):
         change_state(bpi_sorted[0])#least imp load
         print("Stage I")
     else:
