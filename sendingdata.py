@@ -131,7 +131,7 @@ def decision(mydata):
     bpi_sorted=bpi
     bpi_sorted.sort()
     v=v/220.00
-    f=f/f_base=49
+    f=f/f_base
     print("Voltage(pu): "+str(v))
     if(v<0.88 or f<0.88):
         change_state(bpi_sorted[3])#third least imp load or most imp load
