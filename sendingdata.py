@@ -39,6 +39,7 @@ S=[1,1,1,1]
 state_val=[1,1,1,1]
 bpi=[4,3,2,1]
 v_base=220
+f_base=49
 
 '''
 def read_data():
@@ -129,7 +130,8 @@ def decision(mydata):
     f=float(mydata["frequency_reading"])
     bpi_sorted=bpi
     bpi_sorted.sort()
-    v=v/220.00;
+    v=v/220.00
+    f_base=49
     print("Voltage(pu): "+str(v))
     if(v<0.88 or f<0.88):
         change_state(bpi_sorted[3])#third least imp load or most imp load
